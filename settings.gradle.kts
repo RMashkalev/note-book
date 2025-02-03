@@ -21,4 +21,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "Note-book"
 include(":app")
- 
+include(":feature")
+include(":component")
+include(":shared")
+include(":component:ui")
+include(":feature:home")
