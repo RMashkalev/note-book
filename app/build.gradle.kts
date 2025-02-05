@@ -1,6 +1,7 @@
 plugins {
 	alias(libs.plugins.android.application)
 	alias(libs.plugins.jetbrains.kotlin.android)
+	id("kotlin-kapt")
 }
 
 android {
@@ -49,6 +50,14 @@ android {
 dependencies {
 
 	implementation(project(":component:ui"))
+	implementation(project(":feature:home"))
+
+	implementation(libs.dagger)
+
+	kapt(libs.dagger.compiler)
+	implementation(libs.javax.inject)
+
+	implementation(libs.androidx.navigation.compose)
 
 	implementation(libs.androidx.core.ktx)
 	implementation(libs.androidx.lifecycle.runtime.ktx)
