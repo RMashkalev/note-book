@@ -9,24 +9,29 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import com.example.home.presentation.HomeIntent
 import com.example.home.presentation.HomeState
+import com.example.home.presentation.HomeViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreen(
-	uiState: HomeState,
-	applyIntent: (HomeIntent) -> Unit,
+	viewModel: HomeViewModel = koinViewModel()
 ) {
-	Log.d("tag", "recompose $uiState")
+	val uiState = viewModel.uiState.collectAsState()
+
+	LaunchedEffect(key1 = true) {
+		viewModel.applyIntent(HomeIntent.Load)
+	}
 	Scaffold { paddingValues ->
-		when(uiState) {
+		when(uiState.value) {
 			is HomeState.Content -> {
 				HomeContent(
 					modifier = Modifier.padding(paddingValues = paddingValues),
-					uiState = uiState,
+					uiState = uiState.value as HomeState.Content,
 				)
 			}
-			is HomeState.Error -> {  }
-			is HomeState.Initial -> { applyIntent(HomeIntent.Load) }
-			is HomeState.Loading -> {  }
+			is HomeState.Error -> Unit
+			is HomeState.Initial -> Unit
+			is HomeState.Loading -> Unit
 		}
 
 	}

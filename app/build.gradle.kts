@@ -52,10 +52,8 @@ dependencies {
 	implementation(project(":component:ui"))
 	implementation(project(":feature:home"))
 
-	implementation(libs.dagger)
-
-	kapt(libs.dagger.compiler)
-	implementation(libs.javax.inject)
+	implementation(libs.koin.core)
+	implementation(libs.koin.android)
 
 	implementation(libs.androidx.navigation.compose)
 

@@ -1,20 +1,22 @@
 package com.example.note_book.app
 
 import android.app.Application
-import com.example.note_book.di.AppComponent
-import com.example.note_book.di.DaggerAppComponent
-import com.example.note_book.di.HomeModule
+import com.example.home.di.homeModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.GlobalContext.startKoin
 
 class App : Application() {
-
-	lateinit var appComponent: AppComponent
 
 	override fun onCreate() {
 		super.onCreate()
 
-		appComponent = DaggerAppComponent
-			.builder()
-			.homeModule(HomeModule(context = this))
-			.build()
+		startKoin {
+			androidLogger()
+			androidContext(this@App)
+			modules(
+				homeModule,
+			)
+		}
 	}
 }
