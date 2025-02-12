@@ -9,21 +9,10 @@ import com.example.home.domain.usecase.GetNotesUseCase
 import com.example.home.presentation.HomeViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.annotation.ComponentScan
+import org.koin.core.annotation.Module
 import org.koin.dsl.module
 
-val homeModule = module {
-
-	factory<HomeSharedPref> { HomeSharedPref(androidContext()) }
-
-	factory<HomeDataSourcePref> { HomeDataSourcePrefImpl(get()) }
-
-	factory<HomeRepository> { HomeRepositoryImpl(get()) }
-
-	factory<GetNotesUseCase> { GetNotesUseCase(get()) }
-
-	viewModel {
-		HomeViewModel(
-			getNotesUseCase = get()
-		)
-	}
-}
+@Module
+@ComponentScan("com.example.home")
+class HomeModule

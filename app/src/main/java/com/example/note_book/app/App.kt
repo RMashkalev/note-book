@@ -1,10 +1,12 @@
 package com.example.note_book.app
 
 import android.app.Application
-import com.example.home.di.homeModule
+import com.example.home.di.HomeModule
+import com.example.note_book.di.MainModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.GlobalContext.startKoin
+import org.koin.ksp.generated.module
 
 class App : Application() {
 
@@ -15,7 +17,8 @@ class App : Application() {
 			androidLogger()
 			androidContext(this@App)
 			modules(
-				homeModule,
+//				MainModule().module,
+				HomeModule().module,
 			)
 		}
 	}

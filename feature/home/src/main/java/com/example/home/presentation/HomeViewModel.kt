@@ -3,7 +3,10 @@ package com.example.home.presentation
 import androidx.lifecycle.ViewModel
 import com.example.home.domain.usecase.GetNotesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
+import org.koin.android.annotation.KoinViewModel
+import org.koin.core.annotation.InjectedParam
 
+@KoinViewModel
 class HomeViewModel(
 	private val getNotesUseCase: GetNotesUseCase,
 ) : ViewModel() {

@@ -2,7 +2,11 @@ package com.example.home.data.pref
 
 import android.content.Context
 import com.example.home.data.model.NoteModel
+import org.koin.core.annotation.Factory
+import org.koin.core.annotation.InjectedParam
+import org.koin.core.annotation.Property
 
+@Factory
 class HomeSharedPref(
 	context: Context,
 ) {

@@ -1,7 +1,8 @@
 plugins {
 	alias(libs.plugins.android.application)
 	alias(libs.plugins.jetbrains.kotlin.android)
-	id("kotlin-kapt")
+	alias(libs.plugins.google.devtools.ksp)
+	alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -45,6 +46,10 @@ android {
 			excludes += "/META-INF/{AL2.0,LGPL2.1}"
 		}
 	}
+	ksp {
+		arg("KOIN_USE_COMPOSE_VIEWMODEL","true")
+		arg("KOIN_CONFIG_CHECK", "true")
+	}
 }
 
 dependencies {
@@ -54,6 +59,8 @@ dependencies {
 
 	implementation(libs.koin.core)
 	implementation(libs.koin.android)
+	implementation(libs.koin.annotations)
+	ksp(libs.koin.ksp.compiler)
 
 	implementation(libs.androidx.navigation.compose)
 

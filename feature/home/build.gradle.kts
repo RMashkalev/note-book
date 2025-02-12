@@ -1,6 +1,8 @@
 plugins {
 	alias(libs.plugins.android.library)
 	alias(libs.plugins.jetbrains.kotlin.android)
+	alias(libs.plugins.google.devtools.ksp)
+	alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -33,6 +35,10 @@ android {
 	composeOptions {
 		kotlinCompilerExtensionVersion = "1.5.1"
 	}
+	ksp {
+		arg("KOIN_USE_COMPOSE_VIEWMODEL","true")
+		arg("KOIN_CONFIG_CHECK", "true")
+	}
 }
 
 dependencies {
@@ -40,6 +46,8 @@ dependencies {
 	implementation(libs.koin.core)
 	implementation(libs.koin.android)
 	implementation(libs.koin.android.compose)
+	implementation(libs.koin.annotations)
+	ksp(libs.koin.ksp.compiler)
 
 	implementation(platform(libs.androidx.compose.bom))
 	implementation(libs.androidx.material3)
