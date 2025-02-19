@@ -1,6 +1,8 @@
 plugins {
 	alias(libs.plugins.android.library)
 	alias(libs.plugins.jetbrains.kotlin.android)
+	alias(libs.plugins.google.devtools.ksp)
+	alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -8,7 +10,7 @@ android {
 	compileSdk = 34
 
 	defaultConfig {
-		minSdk = 24
+		minSdk = 26
 
 		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 		consumerProguardFiles("consumer-rules.pro")
@@ -27,13 +29,29 @@ android {
 	kotlinOptions {
 		jvmTarget = "11"
 	}
+	buildFeatures {
+		compose = true
+	}
+	composeOptions {
+		kotlinCompilerExtensionVersion = "1.5.1"
+	}
 }
 
 dependencies {
+	implementation(libs.koin.core)
+	implementation(libs.koin.android)
+	implementation(libs.koin.android.compose)
+	implementation(libs.koin.annotations)
 
+	implementation(platform(libs.androidx.compose.bom))
+	implementation(libs.androidx.material3)
+	implementation(libs.androidx.ui)
+	implementation(libs.androidx.ui.graphics)
 	implementation(libs.androidx.core.ktx)
 	implementation(libs.androidx.appcompat)
 	implementation(libs.material)
+	implementation(libs.androidx.ui.tooling.preview.android)
+	implementation(project(":component:ui"))
 	testImplementation(libs.junit)
 	androidTestImplementation(libs.androidx.junit)
 	androidTestImplementation(libs.androidx.espresso.core)
