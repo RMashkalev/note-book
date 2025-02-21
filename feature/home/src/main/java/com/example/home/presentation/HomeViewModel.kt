@@ -30,7 +30,7 @@ class HomeViewModel(
 		}
 	}
 
-	fun createNote() {
+	fun createNote(onNavigateToNote: (Long) -> Unit) {
 		val currentState = _uiState.value as? HomeState.Content ?: return
 
 		viewModelScope.launch {
@@ -39,9 +39,10 @@ class HomeViewModel(
 				title = "Заметка",
 				description = "Описание"
 			)
-			createNoteUseCase(note)
+			val noteId = createNoteUseCase(note)
 			val notes = getAllNotesUseCase()
 			_uiState.value = currentState.copy(notes = notes)
+			onNavigateToNote(noteId)
 		}
 	}
 }

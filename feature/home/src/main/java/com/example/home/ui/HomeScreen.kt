@@ -44,7 +44,7 @@ fun HomeScreen(
 				HomeContent(
 					modifier = Modifier.padding(paddingValues = paddingValues),
 					uiState = uiState.value as HomeState.Content,
-					onCreateNote = { viewModel.createNote() },
+					onCreateNote = { viewModel.createNote(onNoteClick) },
 					onNoteClick = onNoteClick,
 				)
 			}
