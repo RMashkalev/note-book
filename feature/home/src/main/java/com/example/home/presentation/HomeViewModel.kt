@@ -1,5 +1,6 @@
 package com.example.home.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.notedatabase.domain.entity.Note
@@ -29,13 +30,15 @@ class HomeViewModel(
 		_uiState.value = HomeState.Loading
 		viewModelScope.launch {
 			val notes = getAllNotesUseCase()
+
+			Log.d("tag", "$notes")
 			_uiState.value = HomeState.Content(notes)
 		}
 
 	}
 
 	private fun handleCreateNote() {
-		if(_uiState.value !is HomeState.Content) return
+		val currentState = _uiState.value as? HomeState.Content ?: return
 
 		viewModelScope.launch {
 			val note = Note(
@@ -45,7 +48,7 @@ class HomeViewModel(
 			)
 			createNoteUseCase(note)
 			val notes = getAllNotesUseCase()
-			_uiState.value = HomeState.Content(notes)
+			_uiState.value = currentState.copy(notes = notes)
 		}
 
 	}

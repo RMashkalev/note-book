@@ -44,7 +44,7 @@ fun HomeContent(
 				}
 			}
 			uiState.notes.forEach { note ->
-				items(uiState.notes.size) {
+				item {
 					Note(
 						id = note.id,
 						title = note.title,

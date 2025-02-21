@@ -2,8 +2,8 @@ package com.example.notedetail.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.notedatabase.domain.entity.Note
+import com.example.notedatabase.domain.usecase.DeleteNoteUseCase
 import com.example.notedatabase.domain.usecase.GetNoteByIdUseCase
 import com.example.notedatabase.domain.usecase.UpdateNoteUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,6 +16,7 @@ import org.koin.core.annotation.InjectedParam
 class NoteDetailViewModel(
 	private val getNoteByIdUseCase: GetNoteByIdUseCase,
 	private val updateNoteUseCase: UpdateNoteUseCase,
+	private val deleteNoteUseCase: DeleteNoteUseCase,
 	@InjectedParam private val noteId: String,
 ) : ViewModel() {
 
@@ -49,7 +50,22 @@ class NoteDetailViewModel(
 			with(currentState) {
 				updateNoteUseCase(
 					Note(
-						id = 0,
+						id = noteId.toInt(),
+						title = title,
+						description = description,
+					)
+				)
+			}
+		}
+	}
+
+	fun deleteNote() {
+		val currentState = _uiState.value as? NoteDetailState.Content ?: return
+		viewModelScope.launch {
+			with(currentState) {
+				deleteNoteUseCase(
+					Note(
+						id = noteId.toInt(),
 						title = title,
 						description = description,
 					)

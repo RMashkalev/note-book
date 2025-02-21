@@ -28,7 +28,9 @@ fun NoteDetailContent(
 	modifier: Modifier = Modifier,
 	uiState: NoteDetailState.Content,
 	onChangeTitle: (String) -> Unit,
-	onChangeDescription: (String) -> Unit
+	onChangeDescription: (String) -> Unit,
+	onSaveNote: () -> Unit,
+	onNavigateBack: () -> Unit,
 ) {
 	Column(
 		modifier = modifier
@@ -58,7 +60,10 @@ fun NoteDetailContent(
 			modifier = Modifier
 				.fillMaxWidth(),
 			shape = RoundedCornerShape(8.dp),
-			onClick = {	}
+			onClick = {
+				onSaveNote()
+				onNavigateBack()
+			}
 		) {
 			Text(
 				text = "Сохранить"
@@ -112,7 +117,9 @@ private fun NoteDetailContentPreview() {
 			modifier = Modifier,
 			uiState = uiState,
 			onChangeTitle = {},
-			onChangeDescription = {}
+			onChangeDescription = {},
+			onSaveNote = {},
+			onNavigateBack = {}
 		)
 	}
 }

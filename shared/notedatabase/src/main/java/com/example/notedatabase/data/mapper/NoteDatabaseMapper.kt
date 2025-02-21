@@ -1,5 +1,6 @@
 package com.example.notedatabase.data.mapper
 
+import android.util.Log
 import com.example.notedatabase.data.database.NoteDBEntity
 import com.example.notedatabase.data.model.NoteModel
 import com.example.notedatabase.domain.entity.Note

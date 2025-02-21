@@ -3,6 +3,7 @@ package com.example.notedetail.ui
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -51,6 +52,17 @@ fun NoteDetailScreen(
 						)
 					}
 				},
+				actions = {
+					IconButton(onClick = {
+						viewModel.deleteNote()
+						onNavigateBack()
+					}) {
+						Icon(
+							imageVector = Icons.Filled.Delete,
+							contentDescription = "Localized description"
+						)
+					}
+				}
 			)
 		}
 	) { paddingValues ->
@@ -60,7 +72,9 @@ fun NoteDetailScreen(
 					modifier = Modifier.padding(paddingValues = paddingValues),
 					uiState = uiState.value as NoteDetailState.Content,
 					onChangeTitle = { viewModel.changeTitle(it) },
-					onChangeDescription = { viewModel.changeDescription(it) }
+					onChangeDescription = { viewModel.changeDescription(it) },
+					onSaveNote = { viewModel.saveNote() },
+					onNavigateBack = { onNavigateBack() }
 				)
 			}
 			is NoteDetailState.Error -> Unit
