@@ -12,19 +12,23 @@ class NoteRepositoryImpl(
 	private val noteDatabaseDataSource: NoteDatabaseDataSource
 ) : NoteDatabaseRepository{
 
-	override fun getAll(): List<Note> {
+	override suspend fun getAll(): List<Note> {
 		return noteDatabaseDataSource.getAll().map { it.toEntity() }
 	}
 
-	override fun create(note: Note) {
+	override suspend fun create(note: Note) {
 		noteDatabaseDataSource.create(note.toModel())
 	}
 
-	override fun update(note: Note) {
+	override suspend fun update(note: Note) {
 		noteDatabaseDataSource.update(note.toModel())
 	}
 
-	override fun delete(note: Note) {
+	override suspend fun delete(note: Note) {
 		noteDatabaseDataSource.delete(note.toModel())
+	}
+
+	override suspend fun getById(id: String): Note {
+		return noteDatabaseDataSource.getById(id).toEntity()
 	}
 }

@@ -14,7 +14,8 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreen(
-	viewModel: HomeViewModel = koinViewModel()
+	viewModel: HomeViewModel = koinViewModel(),
+	onNoteClick: (String) -> Unit,
 ) {
 	val uiState = viewModel.uiState.collectAsState()
 
@@ -27,6 +28,8 @@ fun HomeScreen(
 				HomeContent(
 					modifier = Modifier.padding(paddingValues = paddingValues),
 					uiState = uiState.value as HomeState.Content,
+					onCreateNote = { viewModel.applyIntent(HomeIntent.CreateNote) },
+					onNoteClick = onNoteClick,
 				)
 			}
 			is HomeState.Error -> Unit

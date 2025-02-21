@@ -9,13 +9,15 @@ import org.koin.core.annotation.Single
 
 interface NoteDatabaseDataSource {
 
-	fun getAll(): List<NoteModel>
+	suspend fun getAll(): List<NoteModel>
 
-	fun create(note: NoteModel)
+	suspend fun create(note: NoteModel)
 
-	fun update(note: NoteModel)
+	suspend fun update(note: NoteModel)
 
-	fun delete(note: NoteModel)
+	suspend fun delete(note: NoteModel)
+
+	suspend fun getById(id: String): NoteModel
 }
 
 @Single
@@ -23,19 +25,23 @@ class NoteDatabaseDataSourceImpl(
 	private val noteDatabaseDAO: NoteDatabaseDAO,
 ): NoteDatabaseDataSource {
 
-	override fun getAll(): List<NoteModel> {
+	override suspend fun getAll(): List<NoteModel> {
 		return noteDatabaseDAO.getAll().map { it.toModel() }
 	}
 
-	override fun create(note: NoteModel) {
+	override suspend fun create(note: NoteModel) {
 		noteDatabaseDAO.create(note.toDBEntity())
 	}
 
-	override fun update(note: NoteModel) {
+	override suspend fun update(note: NoteModel) {
 		noteDatabaseDAO.update(note.toDBEntity())
 	}
 
-	override fun delete(note: NoteModel) {
+	override suspend fun delete(note: NoteModel) {
 		noteDatabaseDAO.delete(note.toDBEntity())
+	}
+
+	override suspend fun getById(id: String): NoteModel {
+		return noteDatabaseDAO.getById(id).toModel()
 	}
 }

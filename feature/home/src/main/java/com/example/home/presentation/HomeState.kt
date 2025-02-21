@@ -1,6 +1,6 @@
 package com.example.home.presentation
 
-import com.example.home.domain.entity.Note
+import com.example.notedatabase.domain.entity.Note
 
 sealed interface HomeState {
 

@@ -38,10 +38,14 @@ android {
 }
 
 dependencies {
+	implementation(project(":component:ui"))
+	implementation(project(":shared:notedatabase"))
+
 	implementation(libs.koin.core)
 	implementation(libs.koin.android)
 	implementation(libs.koin.android.compose)
 	implementation(libs.koin.annotations)
+	ksp(libs.koin.ksp.compiler)
 
 	implementation(platform(libs.androidx.compose.bom))
 	implementation(libs.androidx.material3)
@@ -51,7 +55,7 @@ dependencies {
 	implementation(libs.androidx.appcompat)
 	implementation(libs.material)
 	implementation(libs.androidx.ui.tooling.preview.android)
-	implementation(project(":component:ui"))
+
 	testImplementation(libs.junit)
 	androidTestImplementation(libs.androidx.junit)
 	androidTestImplementation(libs.androidx.espresso.core)

@@ -44,6 +44,7 @@ android {
 dependencies {
 
 	implementation(project(":component:ui"))
+	implementation(project(":shared:notedatabase"))
 
 	implementation(libs.koin.core)
 	implementation(libs.koin.android)

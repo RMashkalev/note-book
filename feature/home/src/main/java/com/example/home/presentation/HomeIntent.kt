@@ -4,5 +4,9 @@ sealed interface HomeIntent {
 
 	data object Load : HomeIntent
 
-	data object NoteClick : HomeIntent
+	data object CreateNote : HomeIntent
+
+	data class NoteClick(
+		val id: Int,
+	) : HomeIntent
 }

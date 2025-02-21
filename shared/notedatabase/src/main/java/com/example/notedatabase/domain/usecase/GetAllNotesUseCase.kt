@@ -7,4 +7,4 @@ import org.koin.core.annotation.Factory
 @Factory
 class GetAllNotesUseCase(
 	repository: NoteDatabaseRepository
-) : () -> List<Note> by repository::getAll
+) : suspend () -> List<Note> by repository::getAll

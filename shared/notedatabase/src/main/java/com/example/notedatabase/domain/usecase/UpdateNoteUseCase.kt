@@ -7,4 +7,4 @@ import org.koin.core.annotation.Factory
 @Factory
 class UpdateNoteUseCase(
 	repository: NoteDatabaseRepository
-) : (Note) -> Unit by repository::delete
+) : suspend (Note) -> Unit by repository::delete

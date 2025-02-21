@@ -1,32 +1,60 @@
 package com.example.notedetail.presentation
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.notedatabase.domain.entity.Note
+import com.example.notedatabase.domain.usecase.GetNoteByIdUseCase
+import com.example.notedatabase.domain.usecase.UpdateNoteUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
+import org.koin.core.annotation.InjectedParam
 
 @KoinViewModel
-class NoteDetailViewModel(): ViewModel() {
+class NoteDetailViewModel(
+	private val getNoteByIdUseCase: GetNoteByIdUseCase,
+	private val updateNoteUseCase: UpdateNoteUseCase,
+	@InjectedParam private val noteId: String,
+) : ViewModel() {
 
 	private val _uiState = MutableStateFlow<NoteDetailState>(NoteDetailState.Initial)
-	val uiState = _uiState
+	val uiState = _uiState.asStateFlow()
 
-	fun applyIntent(intent: NoteDetailIntent) = when(intent) {
-		is NoteDetailIntent.ChangeTitle       -> handleChangeTitle(intent.title)
-		is NoteDetailIntent.ChangeDescription -> handleChangeDescription(intent.description)
-		is NoteDetailIntent.NavigateBack      -> handleNavigateBack()
+	fun load() {
+		_uiState.value = NoteDetailState.Loading
+		viewModelScope.launch {
+			val note = getNoteByIdUseCase(noteId)
+			_uiState.value = NoteDetailState.Content(
+				title = note.title,
+				description = note.description,
+			)
+		}
 	}
 
-	private fun handleChangeTitle(title: String) {
+	fun changeTitle(title: String) {
 		val currentState = _uiState.value as? NoteDetailState.Content ?: return
 		_uiState.value = currentState.copy(title = title)
 	}
 
-	private fun handleChangeDescription(description: String) {
+	fun changeDescription(description: String) {
 		val currentState = _uiState.value as? NoteDetailState.Content ?: return
 		_uiState.value = currentState.copy(description = description)
 	}
 
-	private fun handleNavigateBack() {
-
+	fun saveNote() {
+		val currentState = _uiState.value as? NoteDetailState.Content ?: return
+		viewModelScope.launch {
+			with(currentState) {
+				updateNoteUseCase(
+					Note(
+						id = 0,
+						title = title,
+						description = description,
+					)
+				)
+			}
+		}
 	}
 }

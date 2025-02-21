@@ -1,30 +1,56 @@
 package com.example.home.presentation
 
 import androidx.lifecycle.ViewModel
-import com.example.home.domain.usecase.GetNotesUseCase
+import androidx.lifecycle.viewModelScope
+import com.example.notedatabase.domain.entity.Note
+import com.example.notedatabase.domain.usecase.CreateNoteUseCase
+import com.example.notedatabase.domain.usecase.DeleteNoteUseCase
+import com.example.notedatabase.domain.usecase.GetAllNotesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
-import org.koin.core.annotation.InjectedParam
 
 @KoinViewModel
 class HomeViewModel(
-	private val getNotesUseCase: GetNotesUseCase,
+	private val createNoteUseCase: CreateNoteUseCase,
+	private val getAllNotesUseCase: GetAllNotesUseCase,
 ) : ViewModel() {
 
 	private val _uiState = MutableStateFlow<HomeState>(HomeState.Initial)
 	val uiState = _uiState
 
-	fun applyIntent(intent: HomeIntent) = when(intent) {
-		HomeIntent.Load      -> handleLoad()
-		HomeIntent.NoteClick -> handleNoteClick()
+	fun applyIntent(intent: HomeIntent) = when (intent) {
+		is HomeIntent.Load       -> handleLoad()
+		is HomeIntent.NoteClick  -> handleNoteClick(intent.id)
+		is HomeIntent.CreateNote -> handleCreateNote()
 	}
 
 	private fun handleLoad() {
 		_uiState.value = HomeState.Loading
-		val notes = getNotesUseCase()
-		_uiState.value = HomeState.Content(notes)
+		viewModelScope.launch {
+			val notes = getAllNotesUseCase()
+			_uiState.value = HomeState.Content(notes)
+		}
+
 	}
 
-	private fun handleNoteClick() {
+	private fun handleCreateNote() {
+		if(_uiState.value !is HomeState.Content) return
+
+		viewModelScope.launch {
+			val note = Note(
+				id = 0,
+				title = "Заметка",
+				description = "Описание"
+			)
+			createNoteUseCase(note)
+			val notes = getAllNotesUseCase()
+			_uiState.value = HomeState.Content(notes)
+		}
+
+	}
+
+	private fun handleNoteClick(id: Int) {
+
 	}
 }

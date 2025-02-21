@@ -5,6 +5,6 @@ import com.example.notedatabase.domain.repository.NoteDatabaseRepository
 import org.koin.core.annotation.Factory
 
 @Factory
-class DeleteNoteUseCase(
+class GetNoteByIdUseCase(
 	repository: NoteDatabaseRepository
-) : suspend (Note) -> Unit by repository::delete
+) : suspend (String) -> Note by repository::getById
