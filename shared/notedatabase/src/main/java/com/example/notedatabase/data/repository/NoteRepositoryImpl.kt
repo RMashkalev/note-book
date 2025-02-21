@@ -13,7 +13,7 @@ class NoteRepositoryImpl(
 ) : NoteDatabaseRepository{
 
 	override suspend fun getAll(): List<Note> {
-		return noteDatabaseDataSource.getAll().map { it.toEntity() }
+		return noteDatabaseDataSource.getAll().toEntity()
 	}
 
 	override suspend fun create(note: Note) {

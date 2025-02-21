@@ -26,7 +26,7 @@ class NoteDatabaseDataSourceImpl(
 ): NoteDatabaseDataSource {
 
 	override suspend fun getAll(): List<NoteModel> {
-		return noteDatabaseDAO.getAll().map { it.toModel() }
+		return noteDatabaseDAO.getAll().toModel()
 	}
 
 	override suspend fun create(note: NoteModel) {

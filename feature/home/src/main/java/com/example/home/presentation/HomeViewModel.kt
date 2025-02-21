@@ -8,6 +8,7 @@ import com.example.notedatabase.domain.usecase.CreateNoteUseCase
 import com.example.notedatabase.domain.usecase.DeleteNoteUseCase
 import com.example.notedatabase.domain.usecase.GetAllNotesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
 
@@ -18,15 +19,9 @@ class HomeViewModel(
 ) : ViewModel() {
 
 	private val _uiState = MutableStateFlow<HomeState>(HomeState.Initial)
-	val uiState = _uiState
+	val uiState = _uiState.asStateFlow()
 
-	fun applyIntent(intent: HomeIntent) = when (intent) {
-		is HomeIntent.Load       -> handleLoad()
-		is HomeIntent.NoteClick  -> handleNoteClick(intent.id)
-		is HomeIntent.CreateNote -> handleCreateNote()
-	}
-
-	private fun handleLoad() {
+	fun load() {
 		_uiState.value = HomeState.Loading
 		viewModelScope.launch {
 			val notes = getAllNotesUseCase()
@@ -34,10 +29,9 @@ class HomeViewModel(
 			Log.d("tag", "$notes")
 			_uiState.value = HomeState.Content(notes)
 		}
-
 	}
 
-	private fun handleCreateNote() {
+	fun createNote() {
 		val currentState = _uiState.value as? HomeState.Content ?: return
 
 		viewModelScope.launch {
@@ -50,10 +44,5 @@ class HomeViewModel(
 			val notes = getAllNotesUseCase()
 			_uiState.value = currentState.copy(notes = notes)
 		}
-
-	}
-
-	private fun handleNoteClick(id: Int) {
-
 	}
 }
