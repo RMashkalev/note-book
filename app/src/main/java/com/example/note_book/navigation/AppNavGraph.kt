@@ -18,7 +18,7 @@ fun AppNavGraph() {
 		composable(NavRoutes.HOME) {
 			HomeScreen(
 				onNoteClick = { noteId ->
-					navController.navigate(NavRoutes.NOTE_DETAIL + "/${noteId.toInt()}")
+					navController.navigate(NavRoutes.NOTE_DETAIL + "/${noteId}")
 				}
 			)
 		}

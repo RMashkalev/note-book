@@ -5,9 +5,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.RoomDatabase
 
-@Entity
+@Entity(tableName = "notes")
 data class NoteDBEntity(
-	@PrimaryKey(autoGenerate = true) val id: Int,
+	@PrimaryKey(autoGenerate = true) val id: Long,
 	val title: String,
 	val description: String,
 )

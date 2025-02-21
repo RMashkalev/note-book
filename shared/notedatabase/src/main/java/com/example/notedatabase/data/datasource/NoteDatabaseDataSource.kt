@@ -11,7 +11,7 @@ interface NoteDatabaseDataSource {
 
 	suspend fun getAll(): List<NoteModel>
 
-	suspend fun create(note: NoteModel)
+	suspend fun create(note: NoteModel) : Long
 
 	suspend fun update(note: NoteModel)
 
@@ -29,8 +29,8 @@ class NoteDatabaseDataSourceImpl(
 		return noteDatabaseDAO.getAll().toModel()
 	}
 
-	override suspend fun create(note: NoteModel) {
-		noteDatabaseDAO.create(note.toDBEntity())
+	override suspend fun create(note: NoteModel) : Long {
+		return noteDatabaseDAO.create(note.toDBEntity())
 	}
 
 	override suspend fun update(note: NoteModel) {

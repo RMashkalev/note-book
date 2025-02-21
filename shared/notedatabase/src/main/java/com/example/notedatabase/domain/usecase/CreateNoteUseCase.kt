@@ -7,4 +7,4 @@ import org.koin.core.annotation.Factory
 @Factory
 class CreateNoteUseCase(
 	repository: NoteDatabaseRepository
-) : suspend (Note) -> Unit by repository::create
+) : suspend (Note) -> Long by repository::create

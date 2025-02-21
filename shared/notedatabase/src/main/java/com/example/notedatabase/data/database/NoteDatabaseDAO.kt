@@ -10,7 +10,7 @@ import androidx.room.Update
 interface NoteDatabaseDAO {
 
 	@Insert
-	suspend fun create(note: NoteDBEntity)
+	suspend fun create(note: NoteDBEntity): Long
 
 	@Update
 	suspend fun update(note: NoteDBEntity)
@@ -18,9 +18,9 @@ interface NoteDatabaseDAO {
 	@Delete
 	suspend fun delete(note: NoteDBEntity)
 
-	@Query("SELECT * FROM NoteDBEntity")
+	@Query("SELECT * FROM notes")
 	suspend fun getAll(): List<NoteDBEntity>
 
-	@Query("SELECT * FROM NoteDBEntity WHERE id = :id")
+	@Query("SELECT * FROM notes WHERE id = :id")
 	suspend fun getById(id: String): NoteDBEntity
 }

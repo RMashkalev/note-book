@@ -16,8 +16,8 @@ class NoteRepositoryImpl(
 		return noteDatabaseDataSource.getAll().toEntity()
 	}
 
-	override suspend fun create(note: Note) {
-		noteDatabaseDataSource.create(note.toModel())
+	override suspend fun create(note: Note) : Long {
+		return noteDatabaseDataSource.create(note.toModel())
 	}
 
 	override suspend fun update(note: Note) {

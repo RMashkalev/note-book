@@ -26,7 +26,6 @@ class HomeViewModel(
 		viewModelScope.launch {
 			val notes = getAllNotesUseCase()
 
-			Log.d("tag", "$notes")
 			_uiState.value = HomeState.Content(notes)
 		}
 	}

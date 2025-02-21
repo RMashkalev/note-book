@@ -23,18 +23,18 @@ import com.example.ui.theme.Typography
 
 @Composable
 fun Note(
-	id: Int,
+	modifier: Modifier = Modifier,
+	id: Long,
 	title: String,
 	description: String,
-	onClick: (Int) -> Unit,
+	onClick: (Long) -> Unit,
 ) {
 	Column(
-		modifier = Modifier
+		modifier = modifier
 			.fillMaxWidth()
 			.height(96.dp)
-			.padding(8.dp)
 			.clip(RoundedCornerShape(size = 16.dp))
-			.background(Color.Gray)
+			.background(Color.LightGray)
 			.clickable { onClick(id) }
 	) {
 		Text(

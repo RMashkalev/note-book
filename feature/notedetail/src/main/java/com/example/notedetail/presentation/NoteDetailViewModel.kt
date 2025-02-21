@@ -50,7 +50,7 @@ class NoteDetailViewModel(
 			with(currentState) {
 				updateNoteUseCase(
 					Note(
-						id = noteId.toInt(),
+						id = noteId.toLong(),
 						title = title,
 						description = description,
 					)
@@ -65,7 +65,7 @@ class NoteDetailViewModel(
 			with(currentState) {
 				deleteNoteUseCase(
 					Note(
-						id = noteId.toInt(),
+						id = noteId.toLong(),
 						title = title,
 						description = description,
 					)
