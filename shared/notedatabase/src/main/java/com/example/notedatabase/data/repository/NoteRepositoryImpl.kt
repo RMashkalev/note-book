@@ -28,7 +28,7 @@ class NoteRepositoryImpl(
 		noteDatabaseDataSource.delete(note.toModel())
 	}
 
-	override suspend fun getById(id: String): Note {
+	override suspend fun getById(id: Long): Note {
 		return noteDatabaseDataSource.getById(id).toEntity()
 	}
 }

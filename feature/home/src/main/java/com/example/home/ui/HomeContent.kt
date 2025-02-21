@@ -21,7 +21,7 @@ fun HomeContent(
 	modifier: Modifier = Modifier,
 	uiState: HomeState.Content,
 	onCreateNote: () -> Unit,
-	onNoteClick: (String) -> Unit,
+	onNoteClick: (Long) -> Unit,
 ) {
 	Box(
 		modifier = modifier
@@ -37,12 +37,12 @@ fun HomeContent(
 						id = note.id,
 						title = note.title,
 						description = note.description,
-						onClick = { onNoteClick(note.id.toString()) }
+						onClick = { onNoteClick(note.id) }
 					)
 				}
 			}
 		}
-		
+
 		Button(
 			modifier = Modifier
 				.size(72.dp)

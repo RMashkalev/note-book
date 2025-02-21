@@ -17,7 +17,7 @@ class NoteDetailViewModel(
 	private val getNoteByIdUseCase: GetNoteByIdUseCase,
 	private val updateNoteUseCase: UpdateNoteUseCase,
 	private val deleteNoteUseCase: DeleteNoteUseCase,
-	@InjectedParam private val noteId: String,
+	@InjectedParam private val noteId: Long,
 ) : ViewModel() {
 
 	private val _uiState = MutableStateFlow<NoteDetailState>(NoteDetailState.Initial)

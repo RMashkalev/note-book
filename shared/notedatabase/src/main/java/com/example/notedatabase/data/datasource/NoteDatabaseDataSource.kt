@@ -17,7 +17,7 @@ interface NoteDatabaseDataSource {
 
 	suspend fun delete(note: NoteModel)
 
-	suspend fun getById(id: String): NoteModel
+	suspend fun getById(id: Long): NoteModel
 }
 
 @Single
@@ -41,7 +41,7 @@ class NoteDatabaseDataSourceImpl(
 		noteDatabaseDAO.delete(note.toDBEntity())
 	}
 
-	override suspend fun getById(id: String): NoteModel {
+	override suspend fun getById(id: Long): NoteModel {
 		return noteDatabaseDAO.getById(id).toModel()
 	}
 }

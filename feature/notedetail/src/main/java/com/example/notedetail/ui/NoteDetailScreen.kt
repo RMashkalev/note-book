@@ -23,7 +23,7 @@ import org.koin.core.parameter.parametersOf
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteDetailScreen(
-	noteId: String,
+	noteId: Long,
 	viewModel: NoteDetailViewModel = koinViewModel(
 		parameters = { parametersOf(noteId) }
 	),

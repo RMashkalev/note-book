@@ -7,4 +7,4 @@ import org.koin.core.annotation.Factory
 @Factory
 class GetNoteByIdUseCase(
 	repository: NoteDatabaseRepository
-) : suspend (String) -> Note by repository::getById
+) : suspend (Long) -> Note by repository::getById

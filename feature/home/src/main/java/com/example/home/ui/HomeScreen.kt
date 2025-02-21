@@ -18,7 +18,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun HomeScreen(
 	viewModel: HomeViewModel = koinViewModel(),
-	onNoteClick: (String) -> Unit,
+	onNoteClick: (Long) -> Unit,
 ) {
 	val uiState = viewModel.uiState.collectAsState()
 
