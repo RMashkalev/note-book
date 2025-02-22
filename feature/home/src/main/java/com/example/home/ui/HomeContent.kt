@@ -7,6 +7,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,17 +34,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.geometry.RoundRect
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Outline
-import androidx.compose.ui.graphics.drawOutline
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.PathMeasure
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.vector.Path
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.home.presentation.HomeState
 import com.example.ui.compose.Note
+import kotlin.math.cos
+import kotlin.math.sin
 
 @Composable
 fun HomeContent(
@@ -87,7 +89,6 @@ private fun DropDownButton(
 ) {
 	val itemsCount = 3
 	val animationDuration = 1000
-	val circleSize = 64.dp
 
 	var expanded by remember { mutableStateOf(false) }
 	val boxHeight by animateDpAsState(
@@ -98,7 +99,7 @@ private fun DropDownButton(
 		)
 	)
 	val iconRotation by animateFloatAsState(
-		targetValue = if (expanded) 0f else 360f,
+		targetValue = if (expanded) 360f else 0f,
 		animationSpec = tween(
 			durationMillis = animationDuration,
 			easing = FastOutSlowInEasing
@@ -171,16 +172,30 @@ private fun DropDownButton(
 			}
 		}
 
-		Button(
+		Box(
 			modifier = Modifier
 				.size(72.dp)
-				.align(Alignment.BottomEnd),
-			onClick = {
-				expanded = !expanded
-			},
+				.align(Alignment.BottomEnd)
+				.clip(RoundedCornerShape(72.dp))
+				.background(Color.DarkGray)
+				.clickable { expanded = !expanded },
 		) {
+			Canvas(
+				modifier = Modifier
+					.size(64.dp)
+					.align(Alignment.Center)
+			) {
+				drawArc(
+					color = Color.White,
+					startAngle = 130f,
+					sweepAngle = iconRotation,
+					useCenter = false,
+					style = Stroke(width = 2.dp.toPx())
+				)
+			}
 			Icon(
 				modifier = Modifier
+					.align(Alignment.Center)
 					.graphicsLayer {
 						rotationZ = iconRotation
 					},
