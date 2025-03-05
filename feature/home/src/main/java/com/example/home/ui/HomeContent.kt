@@ -16,19 +16,25 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,6 +50,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.home.presentation.HomeState
 import com.example.ui.compose.Note
+import kotlinx.coroutines.launch
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -54,12 +61,22 @@ fun HomeContent(
 	onCreateNote: () -> Unit,
 	onNoteClick: (Long) -> Unit,
 ) {
+	val lazyListState = rememberLazyListState()
+	val showScrollButton = remember {
+		derivedStateOf {
+			lazyListState.firstVisibleItemIndex > 5
+		}
+	}
+	val coroutineScope = rememberCoroutineScope()
+
 	Box(
 		modifier = modifier
 			.fillMaxSize()
 			.padding(8.dp),
 	) {
-		LazyColumn {
+		LazyColumn(
+			state = lazyListState
+		) {
 			uiState.notes.forEach { note ->
 				item {
 					Note(
@@ -71,6 +88,28 @@ fun HomeContent(
 						onClick = { onNoteClick(note.id) }
 					)
 				}
+			}
+		}
+
+		if (showScrollButton.value) {
+			Box(
+				modifier = Modifier
+					.size(72.dp)
+					.align(Alignment.BottomStart)
+					.clip(RoundedCornerShape(72.dp))
+					.background(Color.DarkGray)
+					.border(2.dp, Color.Gray, RoundedCornerShape(72.dp))
+					.clickable {
+						coroutineScope.launch {
+							lazyListState.animateScrollToItem(0)
+						}
+					},
+				contentAlignment = Alignment.Center
+			) {
+				Icon(
+					imageVector = Icons.Filled.KeyboardArrowUp,
+					contentDescription = "Localized description"
+				)
 			}
 		}
 
@@ -112,6 +151,8 @@ private fun DropDownButton(
 			.height(boxHeight)
 			.clip(RoundedCornerShape(size = 72.dp))
 			.background(Color.LightGray)
+			.border(2.dp, Color.Gray, RoundedCornerShape(72.dp))
+			.clickable { },
 	) {
 		Column {
 			IconButton(
@@ -127,7 +168,6 @@ private fun DropDownButton(
 				}
 			) {
 				Icon(
-
 					imageVector = Icons.Filled.DateRange,
 					contentDescription = "Localized description"
 				)
@@ -146,7 +186,6 @@ private fun DropDownButton(
 				}
 			) {
 				Icon(
-
 					imageVector = Icons.Filled.Info,
 					contentDescription = "Localized description"
 				)
@@ -165,7 +204,6 @@ private fun DropDownButton(
 				}
 			) {
 				Icon(
-
 					imageVector = Icons.Filled.AddCircle,
 					contentDescription = "Localized description"
 				)
