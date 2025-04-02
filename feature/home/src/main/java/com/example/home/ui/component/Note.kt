@@ -1,10 +1,9 @@
-package com.example.ui.compose
+package com.example.home.ui.component
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,7 +23,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -34,9 +32,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.home.R
+import com.example.notedatabase.domain.entity.Note
 import com.example.ui.theme.NotebookTheme
 import com.example.ui.theme.Typography
 
@@ -46,7 +47,10 @@ fun Note(
 	id: Long,
 	title: String,
 	description: String,
+	firstColor: Long,
+	secondColor: Long,
 	onClick: (Long) -> Unit,
+	onColorChange: (Note) -> Unit,
 ) {
 	var expanded by remember { mutableStateOf(false) }
 	val columnHeight by animateDpAsState(
@@ -56,29 +60,29 @@ fun Note(
 			easing = FastOutSlowInEasing
 		)
 	)
-	var firstColorIndex by remember { mutableIntStateOf(0) }
-	var secondColorIndex by remember { mutableIntStateOf(0) }
-	val firstColor by animateColorAsState(
+	var firstColorIndex by remember { mutableIntStateOf(firstColor.toInt()) }
+	var secondColorIndex by remember { mutableIntStateOf(secondColor.toInt()) }
+	val newFirstColor by animateColorAsState(
 		targetValue = Colors.entries[firstColorIndex].color,
 		animationSpec = tween(
 			durationMillis = 500,
 			easing = LinearEasing
 		)
 	)
-	val secondColor by animateColorAsState(
+	val newSecondColor by animateColorAsState(
 		targetValue = Colors.entries[secondColorIndex].color,
 		animationSpec = tween(
 			durationMillis = 500,
 			easing = LinearEasing
 		)
 	)
-	val gradient by remember(firstColor, secondColor) {
+	val gradient by remember(newFirstColor, newSecondColor) {
 		mutableStateOf(
 			Brush
 				.horizontalGradient(
 					colorStops = colorsToPairs(
-						firstColor,
-						secondColor,
+						newFirstColor,
+						newSecondColor,
 					)
 				)
 		)
@@ -93,7 +97,11 @@ fun Note(
 			.clickable { onClick(id) }
 	) {
 		Text(
-			text = title,
+			text = if (title == "") {
+				stringResource(id = R.string.title_label)
+			} else {
+				title
+			},
 			style = Typography.titleLarge,
 			maxLines = 1,
 			overflow = TextOverflow.Ellipsis,
@@ -144,6 +152,15 @@ fun Note(
 						.background(color = color.color)
 						.clickable {
 							firstColorIndex = color.ordinal
+							onColorChange(
+								Note(
+									id = id,
+									title = title,
+									description = description,
+									firstColor = firstColorIndex.toLong(),
+									secondColor = secondColorIndex.toLong(),
+								)
+							)
 						}
 				)
 			}
@@ -163,6 +180,15 @@ fun Note(
 						.background(color = color.color)
 						.clickable {
 							secondColorIndex = color.ordinal
+							onColorChange(
+								Note(
+									id = id,
+									title = title,
+									description = description,
+									firstColor = firstColorIndex.toLong(),
+									secondColor = secondColorIndex.toLong(),
+								)
+							)
 						}
 				)
 			}
@@ -199,7 +225,10 @@ private fun NotePreview() {
 			id = 0,
 			title = "Заметка",
 			description = "Описание",
+			firstColor = 0,
+			secondColor = 0,
 			onClick = { },
+			onColorChange = { }
 		)
 	}
 }

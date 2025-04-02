@@ -24,13 +24,10 @@ import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,26 +37,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.PathMeasure
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.home.R
 import com.example.home.presentation.HomeState
+import com.example.home.ui.component.Note
 import com.example.notedatabase.domain.entity.Note
-import com.example.ui.compose.Note
 import com.example.ui.compose.Screen
 import kotlinx.coroutines.launch
-import kotlin.math.cos
-import kotlin.math.sin
 
 @Composable
 fun HomeContent(
@@ -67,6 +57,7 @@ fun HomeContent(
 	uiState: HomeState.Content,
 	onCreateNote: () -> Unit,
 	onNoteClick: (Long) -> Unit,
+	onColorChange: (Note) -> Unit,
 ) {
 	val lazyListState = rememberLazyListState()
 	val showScrollButton = remember {
@@ -92,7 +83,10 @@ fun HomeContent(
 						id = note.id,
 						title = note.title,
 						description = note.description,
-						onClick = { onNoteClick(note.id) }
+						firstColor = note.firstColor,
+						secondColor = note.secondColor,
+						onClick = { onNoteClick(note.id) },
+						onColorChange = { onColorChange(it) }
 					)
 				}
 			}
@@ -273,6 +267,7 @@ private fun EmptyListPreview() {
 			uiState = uiState,
 			onCreateNote = {},
 			onNoteClick = {},
+			onColorChange = {}
 		)
 	}
 }
@@ -286,26 +281,36 @@ private fun HomePreview() {
 				id = 0,
 				title = "Заметка1",
 				description = "Короткое описание1",
+				firstColor = 0xFFB3E5FC,
+				secondColor = 0xFFFFF9C4,
 			),
 			Note(
 				id = 1,
 				title = "Заметка2",
 				description = "Короткое описание2",
+				firstColor = 0xFFB3E5FC,
+				secondColor = 0xFFFFF9C4,
 			),
 			Note(
 				id = 2,
 				title = "Заметка3",
 				description = "Короткое описание3",
+				firstColor = 0xFFB3E5FC,
+				secondColor = 0xFFFFF9C4,
 			),
 			Note(
 				id = 3,
 				title = "Заметка4",
 				description = "Короткое описание4",
+				firstColor = 0xFFB3E5FC,
+				secondColor = 0xFFFFF9C4,
 			),
 			Note(
 				id = 4,
 				title = "Заметка5",
 				description = "Короткое описание5",
+				firstColor = 0xFFB3E5FC,
+				secondColor = 0xFFFFF9C4,
 			),
 		)
 	)
@@ -314,6 +319,7 @@ private fun HomePreview() {
 			uiState = uiState,
 			onCreateNote = {},
 			onNoteClick = {},
+			onColorChange = {}
 		)
 	}
 }

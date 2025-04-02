@@ -17,8 +17,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.notedetail.R
 import com.example.notedetail.presentation.NoteDetailState
 import com.example.ui.theme.NotebookTheme
 import com.example.ui.theme.Typography
@@ -40,7 +42,7 @@ fun NoteDetailContent(
 			)
 			.padding(horizontal = 8.dp),
 
-	) {
+		) {
 		Title(
 			title = uiState.title,
 			onChangeTitle = { onChangeTitle(it) }
@@ -84,6 +86,9 @@ private fun Title(
 		modifier = Modifier
 			.fillMaxWidth()
 			.clip(RoundedCornerShape(8.dp)),
+		label = {
+			Text(text = stringResource(id = R.string.title_label))
+		},
 	)
 }
 
@@ -109,7 +114,9 @@ private fun Description(
 private fun NoteDetailContentPreview() {
 	val uiState = NoteDetailState.Content(
 		title = "Заметка",
-		description = "Описание"
+		description = "Описание",
+		firstColor = 0xFFCCCCCC,
+		secondColor = 0xFFCCCCCC,
 	)
 
 	NotebookTheme {

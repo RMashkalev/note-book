@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="empty_list_message">Список заметок пуст :(\nДобавьте заметки через кнопку создания</string>
+	<string name="title_label">Заголовок</string>
 </resources>

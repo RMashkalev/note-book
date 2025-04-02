@@ -9,6 +9,8 @@ sealed interface NoteDetailState {
 	data class Content(
 		val title: String,
 		val description: String,
+		val firstColor: Long,
+		val secondColor: Long,
 	) : NoteDetailState
 
 	data object Error : NoteDetailState

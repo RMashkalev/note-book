@@ -30,6 +30,8 @@ class NoteDetailViewModel(
 			_uiState.value = NoteDetailState.Content(
 				title = note.title,
 				description = note.description,
+				firstColor = note.firstColor,
+				secondColor = note.secondColor,
 			)
 		}
 	}
@@ -50,9 +52,11 @@ class NoteDetailViewModel(
 			with(currentState) {
 				updateNoteUseCase(
 					Note(
-						id = noteId.toLong(),
+						id = noteId,
 						title = title,
 						description = description,
+						firstColor = firstColor,
+						secondColor = secondColor,
 					)
 				)
 			}
@@ -65,9 +69,11 @@ class NoteDetailViewModel(
 			with(currentState) {
 				deleteNoteUseCase(
 					Note(
-						id = noteId.toLong(),
+						id = noteId,
 						title = title,
 						description = description,
+						firstColor = firstColor,
+						secondColor = secondColor,
 					)
 				)
 			}

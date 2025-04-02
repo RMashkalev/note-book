@@ -9,7 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import com.example.home.presentation.HomeState
 import com.example.home.presentation.HomeViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -35,7 +37,8 @@ fun HomeScreen(
 						overflow = TextOverflow.Ellipsis
 					)
 				},
-				modifier = Modifier,
+				modifier = Modifier
+					.shadow(elevation = 4.dp),
 			)
 		}
 	) { paddingValues ->
@@ -46,6 +49,7 @@ fun HomeScreen(
 					uiState = uiState.value as HomeState.Content,
 					onCreateNote = { viewModel.createNote(onNoteClick) },
 					onNoteClick = onNoteClick,
+					onColorChange = { viewModel.saveColors(it) }
 				)
 			}
 
