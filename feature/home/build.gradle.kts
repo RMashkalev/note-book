@@ -50,6 +50,7 @@ dependencies {
 	implementation(libs.koin.android)
 	implementation(libs.koin.android.compose)
 	implementation(libs.koin.annotations)
+	implementation(libs.androidx.ui.tooling.preview.android)
 	ksp(libs.koin.ksp.compiler)
 
 	implementation(platform(libs.androidx.compose.bom))

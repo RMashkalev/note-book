@@ -27,6 +27,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -46,10 +47,16 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathMeasure
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.example.home.R
 import com.example.home.presentation.HomeState
+import com.example.notedatabase.domain.entity.Note
 import com.example.ui.compose.Note
+import com.example.ui.compose.Screen
 import kotlinx.coroutines.launch
 import kotlin.math.cos
 import kotlin.math.sin
@@ -91,6 +98,15 @@ fun HomeContent(
 			}
 		}
 
+		if (uiState.notes.isEmpty()) {
+			Text(
+				text = stringResource(id = R.string.empty_list_message),
+				textAlign = TextAlign.Center,
+				modifier = Modifier
+					.align(Alignment.Center),
+			)
+		}
+
 		if (showScrollButton.value) {
 			Box(
 				modifier = Modifier
@@ -126,8 +142,8 @@ private fun DropDownButton(
 	modifier: Modifier,
 	onCreateNote: () -> Unit
 ) {
-	val itemsCount = 3
-	val animationDuration = 1000
+	val itemsCount = remember { 3 }
+	val animationDuration = remember { 1000 }
 
 	var expanded by remember { mutableStateOf(false) }
 	val boxHeight by animateDpAsState(
@@ -244,4 +260,60 @@ private fun DropDownButton(
 
 	}
 
+}
+
+@Preview
+@Composable
+private fun EmptyListPreview() {
+	val uiState = HomeState.Content(
+		notes = listOf()
+	)
+	Screen {
+		HomeContent(
+			uiState = uiState,
+			onCreateNote = {},
+			onNoteClick = {},
+		)
+	}
+}
+
+@Preview
+@Composable
+private fun HomePreview() {
+	val uiState = HomeState.Content(
+		notes = listOf(
+			Note(
+				id = 0,
+				title = "Заметка1",
+				description = "Короткое описание1",
+			),
+			Note(
+				id = 1,
+				title = "Заметка2",
+				description = "Короткое описание2",
+			),
+			Note(
+				id = 2,
+				title = "Заметка3",
+				description = "Короткое описание3",
+			),
+			Note(
+				id = 3,
+				title = "Заметка4",
+				description = "Короткое описание4",
+			),
+			Note(
+				id = 4,
+				title = "Заметка5",
+				description = "Короткое описание5",
+			),
+		)
+	)
+	Screen {
+		HomeContent(
+			uiState = uiState,
+			onCreateNote = {},
+			onNoteClick = {},
+		)
+	}
 }
