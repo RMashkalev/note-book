@@ -2,4 +2,5 @@
 <resources>
 	<string name="empty_list_message">Список заметок пуст :(\nДобавьте заметки через кнопку создания</string>
 	<string name="title_label">Заголовок</string>
+	<string name="gradient_animate_checkbox">Анимация градиента</string>
 </resources>
